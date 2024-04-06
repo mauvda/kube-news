@@ -1,4 +1,4 @@
-FROM node:20.9.0-alpine3.18 as build
+FROM node:20.10.0-alpine3.18
 WORKDIR /build
 COPY package*.json .
 RUN npm install
