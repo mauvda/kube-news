@@ -1,0 +1,38 @@
+volumes:
+  postegre_vol:
+    name: docker_volume_banco
+
+networks:
+  docker_rede:
+    name: docker_rede_projeto
+    driver: bridge
+
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:12.17
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=123321
+      - POSTGRES_USER=user
+      - POSTGRES_DB=db_docker
+    volumes:
+      - postegre_vol:/var/lib/postgresql/data
+    networks:
+      - docker_rede
+
+  kube_news:
+    container_name: kube_news
+    image: mauriciolamonatto/kube-news:v1
+    ports:
+      - 8080:8080
+    networks:
+      - docker_rede
+    environment:
+      - DB_DATABASE=db_docker
+      - DB_USERNAME=user
+      - DB_PASSWORD=123321
+      - DB_HOST=postgres
+    
